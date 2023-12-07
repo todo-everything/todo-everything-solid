@@ -10,13 +10,13 @@ module.exports = {
   },
   plugins: [require("daisyui")],
   daisyui: {
-    // styled: true,
-    themes: ["forest"],
+    styled: true,
+    themes: ["retro", "lofi"],
     base: true,
     utils: true,
     logs: true,
     rtl: false,
     // prefix: "",
-    // darkTheme: "dark",
+    darkTheme: "retro",
   },
 };
