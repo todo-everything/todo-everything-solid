@@ -2,18 +2,19 @@
 
 A to-do list frontend written in TypeScript using [SolidJS](https://solidjs.com).
 
-Currently meant to run with the `todo-everything-django` project, but should work well in general
+Currently meant to run with the [todo-everything-django](https://github.com/todo-everything/todo-everything-django)
+project, but should work well in general
 with any backend that authenticates via JWT.
 
 ## Current goals (v1)
 
-* [ ] JWT login, logout (including token blacklisting), token refresh
+* [X] JWT login, logout (including token blacklisting), token refresh
 * [ ] Create, read, update, delete Todo items
+    * [X] Create
+    * [X] Read
+    * [ ] Update
+    * [X] Delete
 * [ ] Signup via email
-
-
-
-
 
 ## Usage
 
