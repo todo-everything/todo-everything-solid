@@ -1,25 +1,37 @@
-import {createSignal} from 'solid-js'
-import './root.css'
+import {createEffect, createSignal, ParentProps, Show} from "solid-js";
+import Navbar from "./components/Navbar";
+import {useStore} from "./store/storeContext.tsx";
+import Loading from "./components/Loading.tsx";
 
-function App() {
-  const [count, setCount] = createSignal(0)
+// Use https://github.com/Exelord/solid-services
+// For auth services
 
+function Fallback(props) {
   return (
-      <>
-        <h1 class="text-orange-700">Vite + Solid</h1>
-        <div class="card">
-          <button onClick={() => setCount((count) => count + 1)}>
-            count is {count()}
-          </button>
-          <p>
-            Edit <code>src/App.tsx</code> and save to test HMR
-          </p>
-        </div>
-        <p class="read-the-docs">
-          Click on the Vite and Solid logos to learn more
-        </p>
-      </>
+    <div class="w-100 flex justify-center">
+      <Loading />
+    </div>
   )
 }
 
-export default App
+export default function App(props: ParentProps) {
+  const [store, actions] = useStore()
+  const [loading, setLoading] = createSignal(false)
+
+  createEffect(async () => {
+    if (!store.currentUser() && localStorage.getItem('access_token') != null) {
+      setLoading(true)
+      await actions.refetchUser()
+      setLoading(false)
+    }
+  })
+
+  return (
+    <>
+      <Navbar />
+      <Show when={!loading()} fallback={Fallback}>
+        {props.children}
+      </Show>
+    </>
+  )
+}

@@ -1,10 +1,25 @@
+# todo-everything-solid
+
+A to-do list frontend written in TypeScript using [SolidJS](https://solidjs.com).
+
+Currently meant to run with the `todo-everything-django` project, but should work well in general
+with any backend that authenticates via JWT.
+
+## Current goals (v1)
+
+* [ ] JWT login, logout (including token blacklisting), token refresh
+* [ ] Create, read, update, delete Todo items
+* [ ] Signup via email
+
+
+
+
+
 ## Usage
 
 ```bash
 $ npm install # or pnpm install or yarn install
 ```
-
-### Learn more on the [Solid Website](https://solidjs.com) and come chat with us on our [Discord](https://discord.com/invite/solidjs)
 
 ## Available Scripts
 
@@ -25,4 +40,5 @@ Your app is ready to be deployed!
 
 ## Deployment
 
-Learn more about deploying your application with the [documentations](https://vitejs.dev/guide/static-deploy.html)
+Learn more about deploying your application with
+the [documentations](https://vitejs.dev/guide/static-deploy.html)

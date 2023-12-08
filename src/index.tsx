@@ -1,9 +1,12 @@
 /* @refresh reload */
-import { render } from 'solid-js/web'
+import {render} from 'solid-js/web'
+
+// TODO: Only import on dev
+import 'solid-devtools'
 
 import './root.css'
-import App from './App'
+import AppMain from './AppMain'
 
 const root = document.getElementById('root')
 
-render(() => <App />, root!)
+render(() => <AppMain />, root!)
