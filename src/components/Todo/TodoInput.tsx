@@ -22,7 +22,7 @@ export default function TodoInput(props: TodoInputProps) {
   }
 
   const handleInput = (e) => {
-    setTitle(e.target.value)
+    setBody(e.target.value)
   }
 
   return (
@@ -32,7 +32,7 @@ export default function TodoInput(props: TodoInputProps) {
         <input
           class="join-item w-full input input-bordered"
           onInput={handleInput}
-          value={title()}
+          value={body()}
           placeholder="Add todo..."
         />
       </div>

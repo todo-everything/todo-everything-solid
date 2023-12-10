@@ -23,7 +23,6 @@ export default function TodoView(props) {
   })
 
   const handleChange = async (todo: ITodo, completed: boolean) => {
-    console.log({todo: todo.completed, completed})
     if (completed) {
       await actions.completeTodo(todo.id)
     } else {
