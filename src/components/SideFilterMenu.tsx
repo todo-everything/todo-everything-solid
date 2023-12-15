@@ -1,7 +1,11 @@
 import {useSearchParams} from '@solidjs/router'
 import {createEffect, createSignal} from 'solid-js'
 
-export default function SideMenu(props) {
+interface SideFilterMenuProps {
+  onFilterChange: () => ''
+}
+
+export default function SideFilterMenu(props: SideFilterMenuProps) {
   const [searchParams, setSearchParams] = useSearchParams()
   const [hideAction, setHideAction] = createSignal<string>('Hide')
 

@@ -8,6 +8,7 @@ interface ITodoTable extends ParentProps {
   onDelete: (todoId: number) => Promise<void>
   onComplete: (todo: ITodo, completed: boolean) => Promise<void>
   onSave: (todo: ITodo) => Promise<void>
+  onItemClick: (todo: ITodo) => void
 }
 
 export default function TodoTable(props: ITodoTable) {
@@ -23,6 +24,7 @@ export default function TodoTable(props: ITodoTable) {
             onDelete={props.onDelete}
             onComplete={props.onComplete}
             onSave={props.onSave}
+            onItemClick={props.onItemClick}
           />
         )}
       </For>

@@ -32,6 +32,7 @@ export default function App(props: ParentProps) {
       <Show when={!loading()} fallback={Fallback}>
         {props.children}
       </Show>
+      <div id="modal-portal"></div>
     </>
   )
 }

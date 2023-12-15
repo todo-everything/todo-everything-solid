@@ -1,7 +1,7 @@
 import {ParentProps} from 'solid-js'
 
 interface ModalProps extends ParentProps {
-
+  onOpen: () => void
 }
 
 export default function Modal(props: ModalProps) {
