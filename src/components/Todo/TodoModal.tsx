@@ -1,5 +1,5 @@
 import Modal from '../Modal.tsx'
-import type {ITodo} from '../../api/models'
+import type {ITodo} from '~/api/models'
 
 interface TodoModalProps {
   todo: ITodo

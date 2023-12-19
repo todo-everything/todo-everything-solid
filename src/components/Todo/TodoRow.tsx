@@ -1,5 +1,5 @@
 import {RiSystemDeleteBin2Fill} from 'solid-icons/ri'
-import {ITodo} from '../../api/models'
+import type {ITodo} from '~/api/models'
 
 interface TodoRowProps {
   todo: ITodo

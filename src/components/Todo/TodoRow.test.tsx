@@ -1,8 +1,9 @@
 import '@testing-library/jest-dom' // 👈 this is imported in order to use the jest-dom matchers
-import {fireEvent, render} from '@solidjs/testing-library'
-import TodoRow from './TodoRow.tsx'
-import {ITodo} from '../../api/models'
+import {cleanup, fireEvent, render} from '@solidjs/testing-library'
 import {vi} from 'vitest'
+
+import type {ITodo} from '~/api/models'
+import TodoRow from '~/components/Todo/TodoRow.tsx'
 
 const MOCK_TODO: ITodo = {
   title: 'Thetitle',
@@ -20,6 +21,8 @@ const EMPTY_FUNCS = {
 
 
 describe('<TodoRow />', () => {
+  afterEach(cleanup)
+
   it('does not error out with empty Todo', async () => {
     const {queryByText, getByText} = render(() => (
       <TodoRow

@@ -1,4 +1,5 @@
 import {createSignal} from 'solid-js'
+import {debounce} from '~/helpers.ts'
 
 
 interface OnSubmitCallback {
@@ -21,13 +22,15 @@ export default function TodoInput(props: TodoInputProps) {
     setBody('')
   }
 
+  const debouncedSubmit = debounce(handleSubmit)
+
   const handleInput = (e) => {
     setTitle(e.target.value)
     // setBody(e.target.value)
   }
 
   return (
-    <form class={props.class} onSubmit={handleSubmit}>
+    <form role="form" class={props.class} onSubmit={debouncedSubmit}>
       <div class="input-group">
         <button class="btn btn-outline-secondary" type="submit">Add</button>
         <input

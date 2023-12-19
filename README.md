@@ -20,6 +20,7 @@ with any backend that authenticates via JWT.
 
 * SolidJS
 * Bootstrap (previously daisyUI + Tailwind CSS)
+* Testing with vitest + testing-library
 
 ## Usage
 
