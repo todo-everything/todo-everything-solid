@@ -15,6 +15,7 @@ with any backend that authenticates via JWT.
     * [X] Update
     * [X] Delete
 * [ ] Signup via email
+* [X] Tests
 
 ## Built with
 
