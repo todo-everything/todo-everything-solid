@@ -1,7 +1,6 @@
 import {httpClientPrivate} from './httpClientPrivate'
-import mem from 'mem'
+import memoize from 'memoize'
 import axios from 'axios'
-import {httpClient} from './httpClient.ts'
 
 const ACCESS_TOKEN = 'access_token'
 const REFRESH_TOKEN = 'refresh_token'
@@ -43,7 +42,7 @@ const AuthApi = {
     axios.defaults.headers.common['Authorization'] = null
   },
 
-  getUser: mem(getUserFunc, {maxAge: 10000})
+  getUser: memoize(getUserFunc, {maxAge: 10000})
 }
 
 export default AuthApi

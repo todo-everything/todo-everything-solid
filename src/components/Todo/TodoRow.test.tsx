@@ -1,7 +1,8 @@
 import '@testing-library/jest-dom' // 👈 this is imported in order to use the jest-dom matchers
-import {render} from '@solidjs/testing-library'
+import {fireEvent, render} from '@solidjs/testing-library'
 import TodoRow from './TodoRow.tsx'
 import {ITodo} from '../../api/models'
+import {vi} from 'vitest'
 
 const MOCK_TODO: ITodo = {
   title: 'Thetitle',
@@ -17,9 +18,10 @@ const EMPTY_FUNCS = {
   onItemClick: () => '',
 }
 
+
 describe('<TodoRow />', () => {
   it('does not error out with empty Todo', async () => {
-    const {queryByText, getByText, unmount } = render(() => (
+    const {queryByText, getByText} = render(() => (
       <TodoRow
         index={1}
         todo={{}}
@@ -28,20 +30,22 @@ describe('<TodoRow />', () => {
     ))
     expect(queryByText('<none>')).toBeInTheDocument()
     expect(getByText('Delete')).toBeInTheDocument()
-    unmount()
   })
   it('displays row with data', async () => {
-    const {queryByText, getByText, asFragment } = render(() => (
+    const handleOnDelete = vi.fn()
+    const {queryByText, getByText} = render(() => (
       <TodoRow
         index={1}
         todo={MOCK_TODO}
         {...EMPTY_FUNCS}
+        onDelete={handleOnDelete}
       />
     ))
-    const res = await asFragment()
-    console.log({ res })
     expect(getByText(MOCK_TODO.title)).toBeInTheDocument()
     expect(queryByText(MOCK_TODO.body)).toBeNull()
-    expect(getByText('Delete')).toBeInTheDocument()
+    const deleteButton = (await queryByText('Delete')) as HTMLButtonElement
+    expect(deleteButton).toBeInTheDocument()
+    fireEvent.click(deleteButton)
+    expect(handleOnDelete).toBeCalledTimes(1)
   })
 })

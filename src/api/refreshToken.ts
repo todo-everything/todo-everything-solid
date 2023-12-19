@@ -1,4 +1,4 @@
-import mem from 'mem'
+import memoize from 'memoize'
 import {httpClient} from './httpClient'
 
 type Response = {
@@ -36,4 +36,4 @@ const refreshTokenFn = async () => {
 
 const maxAge = 10000
 
-export const memoizedRefreshToken = mem(refreshTokenFn, {maxAge})
+export const memoizedRefreshToken = memoize(refreshTokenFn, {maxAge})
