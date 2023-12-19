@@ -3,17 +3,18 @@ import {
   useContext,
   InitializedResource,
   ParentProps, createSignal, createResource
-} from 'solid-js';
+} from 'solid-js'
 import {createStore} from 'solid-js/store'
-import {ITodo, IUser, TodoMap} from "../api/models";
-import {IStoreState} from "./storeState.ts";
-import {IUserActions} from "./createUserStore";
-import {AUTH_TOKEN_KEY, ICommonActions} from "./createCommonStore.ts";
-import {ITodoActions} from "./createTodoStore.ts";
-import {httpClient} from "../api/httpClient.ts";
-import axios from "axios";
-import AuthApi from "../api/auth.ts";
-import TodosApi from "../api/todos.ts";
+import axios from 'axios'
+
+import type {IPartialTodo, ITodo, IUser, TodoMap} from '../api/models'
+import {IStoreState} from './storeState.ts'
+import {IUserActions} from './createUserStore'
+import {AUTH_TOKEN_KEY, ICommonActions} from './createCommonStore.ts'
+import {ITodoActions} from './createTodoStore.ts'
+import {httpClient} from '../api/httpClient.ts'
+import AuthApi from '../api/auth.ts'
+import TodosApi from '../api/todos.ts'
 
 export interface IActions extends IUserActions, ITodoActions, ICommonActions {
 }
@@ -25,13 +26,13 @@ export const mapTodos = (todos: ITodo[]): TodoMap =>
       prev[curr.id] = curr
       return prev
     },
-    {});
+    {})
 
 export function createApplicationStore() {
   const fetchCurrentUser = async () => {
     // TODO: Memoize?
     const res = await AuthApi.getUser()
-    console.log("FetchUser", {res})
+    console.log('FetchUser', {res})
     return res
   }
 
@@ -52,22 +53,22 @@ export function createApplicationStore() {
     refetch: refetchTodos
   }] = createResource<TodoMap>(currentUser, fetchTodos, {initialValue: {}})
 
-  let todoStore: InitializedResource<TodoMap> = todos;
-  let currentUserStore: InitializedResource<IUser> = currentUser;
+  let todoStore: InitializedResource<TodoMap> = todos
+  let currentUserStore: InitializedResource<IUser> = currentUser
 
   const [state, setState] = createStore<IStoreState>({
     get todos(): InitializedResource<TodoMap> {
-      return todoStore;
+      return todoStore
     },
     get currentUser(): InitializedResource<IUser> {
-      return currentUserStore;
+      return currentUserStore
     },
     token: localStorage.getItem(AUTH_TOKEN_KEY),
   })
 
   const actions: IActions = {
     login: async (email: string, password: string): Promise<void> => {
-      const {data} = await httpClient.post("/token/", {
+      const {data} = await httpClient.post('/token/', {
         email: email,
         password: password
       })
@@ -75,10 +76,10 @@ export function createApplicationStore() {
       console.log({access, refresh})
 
       // Initialize the access & refresh token in localstorage.
-      localStorage.clear();
-      localStorage.setItem('access_token', access);
-      localStorage.setItem('refresh_token', refresh);
-      axios.defaults.headers.common['Authorization'] = `Bearer ${access}`;
+      localStorage.clear()
+      localStorage.setItem('access_token', access)
+      localStorage.setItem('refresh_token', refresh)
+      axios.defaults.headers.common['Authorization'] = `Bearer ${access}`
       setIsLoggedIn(true)
     },
     refetchUser: async () => {
@@ -101,35 +102,42 @@ export function createApplicationStore() {
     },
     completeTodo: async (todoId: number) => {
       const res = await TodosApi.complete(todoId)
-      console.log("complete", {res})
+      console.log('complete', {res})
+      const _todos = todos()
+      _todos[res.id] = res
+      mutateTodos({..._todos})
+    },
+    updateTodo: async (todoId: number, updates: IPartialTodo) => {
+      const res = await TodosApi.update(todoId, updates)
+      console.log('update todo')
       const _todos = todos()
       _todos[res.id] = res
       mutateTodos({..._todos})
     },
     unCompleteTodo: async (todoId: number) => {
       const res = await TodosApi.unComplete(todoId)
-      console.log("un-complete", {res})
+      console.log('un-complete', {res})
       const _todos = todos()
       _todos[res.id] = res
       mutateTodos({..._todos})
     },
     deleteTodo: async (todoId: number) => {
-      console.log("delete", {todoId})
+      console.log('delete', {todoId})
       const res = await TodosApi.delete(todoId)
       const _todos = todos()
       delete _todos[todoId]
       console.log({_todos, res})
       mutateTodos({..._todos})
     },
-  };
+  }
 
   return [state, actions]
 }
 
-export const StoreContext = createContext<IStoreContext>();
+export const StoreContext = createContext<IStoreContext>()
 
 export function ContextProvider(props: ParentProps) {
-  const store = createApplicationStore();
+  const store = createApplicationStore()
 
   return (
     <StoreContext.Provider value={store}>
@@ -140,5 +148,5 @@ export function ContextProvider(props: ParentProps) {
 
 
 export function useStore(): IStoreContext {
-  return useContext<IStoreContext>(StoreContext);
+  return useContext<IStoreContext>(StoreContext)
 }

@@ -5,3 +5,14 @@ export const omitBy = (obj: Object, check) => {
   Object.entries(obj).forEach(([key, value]) => check(value) && delete obj[key])
   return obj
 }
+
+export const debounce = (func: Function, timeout = 300) => {
+  let timer
+
+  return (...args) => {
+    clearTimeout(timer)
+    timer = setTimeout(() => {
+      func.apply(this, args)
+    }, timeout)
+  }
+}

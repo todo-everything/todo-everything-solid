@@ -15,7 +15,7 @@ export default function TodoTable(props: ITodoTable) {
   const [selected, setSelected] = createSignal([])
 
   return (
-    <div class="flex flex-col">
+    <div class="d-flex flex-column">
       <For each={Object.values(props.todos)}>
         {(todo: ITodo, index) => (
           <TodoRow

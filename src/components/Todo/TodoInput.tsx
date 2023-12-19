@@ -14,7 +14,7 @@ export default function TodoInput(props: TodoInputProps) {
   const [title, setTitle] = createSignal<string>('')
   const [body, setBody] = createSignal<string>('')
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: SubmitEvent) => {
     e.preventDefault()
     props.onSubmit({title: title(), body: body()})
     setTitle('')
@@ -22,17 +22,18 @@ export default function TodoInput(props: TodoInputProps) {
   }
 
   const handleInput = (e) => {
-    setBody(e.target.value)
+    setTitle(e.target.value)
+    // setBody(e.target.value)
   }
 
   return (
-    <form classList={{...props.classList, 'w-100': true}} onSubmit={handleSubmit}>
-      <div class="flex flex-row join">
-        <button class="join-item btn" type="submit">Add</button>
+    <form class={props.class} onSubmit={handleSubmit}>
+      <div class="input-group">
+        <button class="btn btn-outline-secondary" type="submit">Add</button>
         <input
-          class="join-item w-full input input-bordered"
+          class="form-control"
           onInput={handleInput}
-          value={body()}
+          value={title()}
           placeholder="Add todo..."
         />
       </div>

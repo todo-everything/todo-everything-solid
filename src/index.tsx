@@ -4,7 +4,7 @@ import {render} from 'solid-js/web'
 // TODO: Only import on dev
 import 'solid-devtools'
 
-import './root.css'
+import './root.scss'
 import AppMain from './AppMain'
 
 const root = document.getElementById('root')

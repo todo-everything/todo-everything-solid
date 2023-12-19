@@ -5,14 +5,6 @@ interface ModalProps extends ParentProps {
 }
 
 export default function Modal(props: ModalProps) {
-  let dialogRef
-
-  const handleOpen = () => {
-    if (dialogRef != null) {
-      dialogRef.showModal()
-    }
-  }
-
   return (
     <div>
       <button class="btn" onClick={handleOpen}>open modal</button>

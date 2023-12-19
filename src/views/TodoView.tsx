@@ -2,20 +2,18 @@ import {createEffect, createSignal, Suspense} from 'solid-js'
 import TodoTable from '../components/Todo/TodoTable'
 import {useStore} from '../store/storeContext'
 import TodoInput from '../components/Todo/TodoInput'
-import {ITodo, TodoMap} from '../api/models'
+import type {IPartialTodo, ITodo, TodoMap} from '../api/models'
 import {useSearchParams} from '@solidjs/router'
-import Loading from '../components/Loading.tsx'
+import Loading from '../components/Loading'
 import {omitBy} from '../helpers.ts'
-import SideMenu from '../components/SideFilterMenu'
 import SideFilterMenu from '../components/SideFilterMenu'
-import TodoDetailDrawer from './TodoDetailDrawer.tsx'
-import {create} from 'axios'
-import {Portal} from 'solid-js/web'
+import TodoUpdate from '../components/Todo/TodoUpdate.tsx'
+import TdeOffcanvas from '../components/TdeOffcanvas.tsx'
 
 export default function TodoView(props) {
   const [store, actions] = useStore()
-  const [showPortal, setShowPortal] = createSignal()
-  const [showDrawer, setShowDrawer] = createSignal(false)
+  const [showDrawer, setShowDrawer] = createSignal<boolean>(false)
+  const [selectedTodo, setSelectedTodo] = createSignal<ITodo>()
   // Create a reactive view of the todos to apply filters on?
   // The todos in the actual global store will not change.
   const [viewTodos, setViewTodos] = createSignal<TodoMap>(store.todos())
@@ -29,40 +27,53 @@ export default function TodoView(props) {
     }
   })
 
-  const handleChange = async (todo: ITodo, completed: boolean) => {
-    if (completed) {
-      await actions.completeTodo(todo.id)
-    } else {
-      await actions.unCompleteTodo(todo.id)
-    }
-  }
+  const handleChange = async (todo: ITodo, completed: boolean) =>
+    actions.updateTodo(todo.id, {completed: completed ? new Date() : null})
 
   const handleDeleteClick = async (todoId: number) => actions.deleteTodo(todoId)
 
-  const handleFilterChange = () => {
+  const handleFilterChange = () => ''
 
+  const handleCloseDrawer = () => {
+    setShowDrawer(false)
   }
 
-  const handleItemClick = (todo: ITodo) => {
-    console.log('clicking.... ', showDrawer())
-    setShowDrawer(!showDrawer())
+  const handleTodoUpdate = async (todoId: number, todoPartial: IPartialTodo) => {
+    await actions.updateTodo(todoId, todoPartial)
+    handleCloseDrawer()
   }
 
   return (
-    <>
+    <div class="d-flex flex-row">
       <SideFilterMenu onFilterChange={handleFilterChange} />
       <div class="flex flex-col flex-grow w-100 mx-6">
-        <TodoInput classList={{'mb-4': true}} onSubmit={actions.createTodo} />
+        <TodoInput class="mb-3" onSubmit={actions.createTodo} />
         <Suspense fallback={<Loading />}>
           <TodoTable
             todos={viewTodos()}
             onDelete={handleDeleteClick}
             onComplete={handleChange}
-            onItemClick={handleItemClick}
+            onItemClick={(todo: ITodo) => {
+              setShowDrawer(true)
+              setSelectedTodo(todo)
+            }}
           />
         </Suspense>
-        <input id="my-drawer-4" type="checkbox" className="drawer-toggle" checked={showDrawer() ? 'checked' : null} />
+
+        {selectedTodo() && (
+          <TdeOffcanvas
+            title="Update Todo"
+            show={showDrawer()}
+            onHide={handleCloseDrawer}
+          >
+            <TodoUpdate
+              todo={selectedTodo()!}
+              onTodoUpdate={handleTodoUpdate}
+              onCancel={handleCloseDrawer}
+            />
+          </TdeOffcanvas>
+        )}
       </div>
-    </>
+    </div>
   )
 }

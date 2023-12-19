@@ -13,27 +13,25 @@ interface TodoRowProps {
 
 export default function TodoRow(props: TodoRowProps) {
   return (
-    <>
-      <div class="flex flex-row w-100 mb-4 p-2 items-center hover:bg-base-300/25 hover:cursor-pointer">
+    <div class="todo-row mb-4 p-2">
+      <div class="form-check me-2 mb-0">
         <input
-          class="checkbox"
+          class="form-check-input"
           type="checkbox"
           checked={props.todo.completed}
           onChange={() => props.onComplete(props.todo, !props.todo.completed)}
         />
-        <div class="flex grow ml-4" onClick={props.onItemClick}>
-          <span>{props.todo.body}</span>
-        </div>
-        <div class="actions flex-end">
-          <div class="join">
-            <button
-              class="btn btn-ghost join-item"
-              onClick={() => props.onDelete(props.todo.id)}>
-              <RiSystemDeleteBin2Fill /> Delete
-            </button>
-          </div>
-        </div>
       </div>
-    </>
+      <div class="todo-title mx-2 p-2" onClick={() => props.onItemClick(props.todo)}>
+        <span>{props.todo.title}</span>
+      </div>
+      <div class="actions flex-end">
+        <button
+          class="btn btn-secondary"
+          onClick={() => props.onDelete(props.todo.id)}>
+          <RiSystemDeleteBin2Fill /> Delete
+        </button>
+      </div>
+    </div>
   )
 }

@@ -7,10 +7,16 @@ export interface ITodo {
   id: number
   title: string
   body: string
-  completed: boolean
+  completed: Date
   created_by: IUser
   created: Date
   updated: Date
+}
+
+export interface IPartialTodo {
+  title?: string
+  body?: string
+  completed?: boolean
 }
 
 export interface TodoMap {

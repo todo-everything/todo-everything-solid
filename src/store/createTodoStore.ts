@@ -1,9 +1,7 @@
 import {createSignal, createResource, InitializedResource, createComputed} from 'solid-js'
 import {SetStoreFunction} from 'solid-js/store'
-// import {WorldApi, IProfile} from '../api/RealWorldApi'
 import {IStoreState} from './storeState'
-import {APIClient} from "../api/request.ts";
-import {ITodo} from "../api/models";
+import type {IPartialTodo, ITodo} from '../api/models'
 
 export interface IProfileActions {
   loadProfile(name: string): void
@@ -19,6 +17,7 @@ export interface ITodoActions {
   getTodos(): Promise<void>
 
   createTodo(newTodo: ITodo): Promise<void>
+  updateTodo(todoId: number, updates: IPartialTodo): Promise<void>
 
   completeTodo(todoId: number): Promise<void>
   unCompleteTodo(todoId: number): Promise<void>
@@ -40,7 +39,7 @@ export interface ITodoActions {
  * @returns
  */
 
-export function createTodoStore(apiClient: APIClient, actions: ITodoActions, state: IStoreState, setState: SetStoreFunction<IStoreState>): InitializedResource<ITodo> {
+export function createTodoStore(apiClient, actions: ITodoActions, state: IStoreState, setState: SetStoreFunction<IStoreState>): InitializedResource<ITodo> {
 
   const fetchTodos = async () => {
     const {currentUser} = state

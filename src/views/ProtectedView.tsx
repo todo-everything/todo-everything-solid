@@ -15,7 +15,7 @@ export default function ProtectedView(props) {
   })
 
   return (
-    <div class="flex basis-full">
+    <div class="container">
       {props.children}
     </div>
   )

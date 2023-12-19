@@ -1,0 +1,52 @@
+@import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
+
+
+html, body {
+  height: 100%;
+}
+
+.todo-row {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  // min-height keeps clickable area nice and prevents unclickable rows if row somehow is empty.
+  min-height: 100%;
+  flex-direction: row;
+
+  .todo-title {
+    display: flex;
+    flex-grow: 1;
+    align-items: center;
+    min-height: 1rem;
+  }
+
+  &:hover {
+    background-color: var(--bs-tertiary-bg);
+    cursor: pointer;
+  }
+}
+
+.todo-update-form {
+  .form-field-title .form-control {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+
+  .form-field-body .form-control {
+    border-radius: 0;
+    height: 100%;
+  }
+
+  button[type=submit], button[type=button] {
+    border-top-right-radius: 0;
+    border-top-left-radius: 0;
+  }
+
+  button[type=submit] {
+    border-bottom-right-radius: 0;
+  }
+
+  button[type=button] {
+    border-bottom-left-radius: 0;
+  }
+}

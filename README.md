@@ -9,10 +9,10 @@ with any backend that authenticates via JWT.
 ## Current goals (v1)
 
 * [X] JWT login, logout (including token blacklisting), token refresh
-* [ ] Create, read, update, delete Todo items
+* [X] Create, read, update, delete Todo items
     * [X] Create
     * [X] Read
-    * [ ] Update
+    * [X] Update
     * [X] Delete
 * [ ] Signup via email
 

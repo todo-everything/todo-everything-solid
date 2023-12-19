@@ -23,14 +23,18 @@ export default function SideFilterMenu(props: SideFilterMenuProps) {
   }
 
   return (
-    <ul class="menu rounded-box">
-      <li>
-        <h2 class="menu-title">Filters</h2>
-        <ul>
-          <li>
-            <a onClick={handleHideCompleted}>{hideAction()} completed</a>
-          </li>
-        </ul>
+    <ul class="nav flex-column">
+      <li class="nav-item">
+        <a class="nav-link" onClick={handleHideCompleted}>{hideAction()} completed</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Link</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Link</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link disabled" aria-disabled="true">Disabled</a>
       </li>
     </ul>
   )

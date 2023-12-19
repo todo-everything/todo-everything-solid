@@ -1,5 +1,5 @@
-import {createSignal} from "solid-js";
-import {A} from "@solidjs/router";
+import {createSignal} from 'solid-js'
+import {A} from '@solidjs/router'
 
 
 interface RegisterViewProps {
@@ -7,15 +7,15 @@ interface RegisterViewProps {
 }
 
 export default function RegisterView(props: RegisterViewProps) {
-  const [email, setEmail] = createSignal("")
-  const [password, setPassword] = createSignal("")
+  const [email, setEmail] = createSignal('')
+  const [password, setPassword] = createSignal('')
 
   const handleSubmit = (e) => {
 
   }
 
   const handleInput = (e, field: string) => {
-    if (field === "email") {
+    if (field === 'email') {
       setEmail(e.target.value)
     } else {
       setPassword(e.target.value)
@@ -37,7 +37,7 @@ export default function RegisterView(props: RegisterViewProps) {
               type="text"
               value={email()}
               placeholder="youremail@example.com"
-              onInput={(e) => handleInput(e, "email")}
+              onInput={(e) => handleInput(e, 'email')}
             />
           </div>
           <div class="form-control">
@@ -49,7 +49,7 @@ export default function RegisterView(props: RegisterViewProps) {
               type="password"
               value={password()}
               placeholder="Your password"
-              onInput={(e) => handleInput(e, "password")}
+              onInput={(e) => handleInput(e, 'password')}
             />
           </div>
 

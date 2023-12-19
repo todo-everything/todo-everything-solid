@@ -1,5 +1,5 @@
-import {httpClientPrivate} from "./httpClientPrivate";
-import {ITodo} from "./models";
+import {httpClientPrivate} from './httpClientPrivate'
+import {IPartialTodo, ITodo} from './models'
 
 export interface Todo {
   id?: number
@@ -12,12 +12,17 @@ export interface Todo {
 
 const TodosApi = {
   getTodos: async (): Promise<ITodo[]> => {
-    const res = await httpClientPrivate.get("/todo/")
+    const res = await httpClientPrivate.get('/todo/')
     return res?.data
   },
 
   createTodo: async (data: Todo): Promise<ITodo> => {
-    const res = await httpClientPrivate.post("/todo/", data)
+    const res = await httpClientPrivate.post('/todo/', data)
+    return res?.data
+  },
+
+  update: async (id: number, updates: IPartialTodo): Promise<ITodo> => {
+    const res = await httpClientPrivate.put(`/todo/${id}/`, updates)
     return res?.data
   },
 
