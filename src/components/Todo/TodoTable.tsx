@@ -1,10 +1,11 @@
-import {createSignal, For, ParentProps, Show} from 'solid-js'
-import {ITodo, TodoMap} from '../../api/models'
-import {RiDesignEdit2Fill, RiDeviceSaveLine, RiSystemDeleteBin2Fill} from 'solid-icons/ri'
+import {Index} from 'solid-js'
 import TodoRow from './TodoRow.tsx'
 
+import type {Accessor, ParentProps} from 'solid-js'
+import type {ITodo} from '../../api/models'
+
 interface ITodoTable extends ParentProps {
-  todos: TodoMap
+  todos: { [s: string]: ITodo }
   onDelete: (todoId: number) => Promise<void>
   onComplete: (todo: ITodo, completed: boolean) => Promise<void>
   onSave: (todo: ITodo) => Promise<void>
@@ -12,22 +13,20 @@ interface ITodoTable extends ParentProps {
 }
 
 export default function TodoTable(props: ITodoTable) {
-  const [selected, setSelected] = createSignal([])
-
   return (
     <div class="d-flex flex-column">
-      <For each={Object.values(props.todos)}>
-        {(todo: ITodo, index) => (
+      <Index each={Object.values<ITodo>(props.todos)}>
+        {(todo: Accessor<ITodo>, index) => (
           <TodoRow
-            todo={todo}
-            index={index()}
+            todo={todo()}
+            index={index}
             onDelete={props.onDelete}
             onComplete={props.onComplete}
             onSave={props.onSave}
             onItemClick={props.onItemClick}
           />
         )}
-      </For>
+      </Index>
     </div>
   )
 }

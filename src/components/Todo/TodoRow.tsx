@@ -1,4 +1,3 @@
-import {createSignal, Show} from 'solid-js'
 import {RiSystemDeleteBin2Fill} from 'solid-icons/ri'
 import {ITodo} from '../../api/models'
 
@@ -18,12 +17,12 @@ export default function TodoRow(props: TodoRowProps) {
         <input
           class="form-check-input"
           type="checkbox"
-          checked={props.todo.completed}
+          checked={!!props.todo.completed}
           onChange={() => props.onComplete(props.todo, !props.todo.completed)}
         />
       </div>
       <div class="todo-title mx-2 p-2" onClick={() => props.onItemClick(props.todo)}>
-        <span>{props.todo.title}</span>
+        <span>{props.todo.title || "<none>"}</span>
       </div>
       <div class="actions flex-end">
         <button
