@@ -16,6 +16,11 @@ with any backend that authenticates via JWT.
     * [X] Delete
 * [ ] Signup via email
 
+## Built with
+
+* SolidJS
+* Bootstrap (previously daisyUI + Tailwind CSS)
+
 ## Usage
 
 ```bash
