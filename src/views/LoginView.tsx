@@ -1,11 +1,19 @@
 import {createStore} from 'solid-js/store'
 import {A, useNavigate} from '@solidjs/router'
 import {useStore} from '../store/storeContext.tsx'
+import {Button, Container, FloatingLabel, Form} from 'solid-bootstrap'
+import {createEffect} from 'solid-js'
 
 export default function LoginView() {
   const [store, actions] = useStore()
   const navigate = useNavigate()
   const [formState, setFormState] = createStore({email: '', password: ''})
+
+  createEffect(() => {
+    if (!store.currentUser.loading && store.currentUser()!) {
+      navigate('/todos')
+    }
+  })
 
   const handleSubmit = async (ev: SubmitEvent) => {
     ev.preventDefault()
@@ -14,13 +22,14 @@ export default function LoginView() {
   }
 
   return (
-    <div class="container mt-3">
+    <Container class="mt-3">
       <div class="d-flex align-items-center py-4">
         <div class="m-auto w-100" style="max-width: 500px;">
-          <form onSubmit={handleSubmit}>
+          <Form role="form" onSubmit={handleSubmit}>
             <h1 class="h3 mb-3">Login</h1>
-            <div class="form-floating">
-              <input
+
+            <FloatingLabel controlId="form-email" label="Email">
+              <Form.Control
                 id="form-email"
                 class="form-control"
                 name="email"
@@ -29,14 +38,11 @@ export default function LoginView() {
                 value={formState.email}
                 onInput={(e) => setFormState('email', e.target.value)}
                 required
-                // use:validate={[userNameExists]}
               />
-              <label class="label" htmlFor="form-email">Email</label>
-              {/*{errors.email && <ErrorMessage error={errors.email}/>}*/}
-            </div>
+            </FloatingLabel>
 
-            <div class="form-floating">
-              <input
+            <FloatingLabel controlId="form-password" label="Password">
+              <Form.Control
                 class="form-control"
                 id="form-password"
                 type="password"
@@ -47,21 +53,20 @@ export default function LoginView() {
                 onInput={(e) => setFormState('password', e.target.value)}
                 // use:validate
               />
-              <label htmlFor="form-password">Password</label>
-            </div>
+            </FloatingLabel>
 
-            <button class="btn btn-primary w-100 py-2" type="submit">
+            <Button class="w-100 py-2" role="button" type="submit" variant="primary">
               Login
-            </button>
+            </Button>
 
             <div class="mt-2">
-              <p class="flex justify-center items-center">
+              <p class="d-flex justify-content-center align-items-center">
                 Need an account? <A class="btn btn-link" href="/register">Create a new account here</A>
               </p>
             </div>
-          </form>
+          </Form>
         </div>
       </div>
-    </div>
+    </Container>
   )
 }

@@ -1,5 +1,8 @@
 import {createSignal} from 'solid-js'
 import {A} from '@solidjs/router'
+import {Button, Container, FloatingLabel, Form} from 'solid-bootstrap'
+import {createStore} from 'solid-js/store'
+import {useStore} from '~/store/storeContext.tsx'
 
 
 interface RegisterViewProps {
@@ -7,63 +10,61 @@ interface RegisterViewProps {
 }
 
 export default function RegisterView(props: RegisterViewProps) {
-  const [email, setEmail] = createSignal('')
-  const [password, setPassword] = createSignal('')
+  const [store, actions] = useStore()
+  const [formState, setFormState] = createStore({email: '', password: ''})
 
-  const handleSubmit = (e) => {
 
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    await actions.register(formState.email, formState.password)
+    await actions.login(formState.email, formState.password)
   }
-
-  const handleInput = (e, field: string) => {
-    if (field === 'email') {
-      setEmail(e.target.value)
-    } else {
-      setPassword(e.target.value)
-    }
-  }
-
 
   return (
-    <div class="w-1/3 mx-auto card bg-base-200 border-base-300">
-      <div class="card-body">
-        <h1 class="text-2xl font-semibold">Create an account</h1>
-        <form onSubmit={handleSubmit}>
-          <div class="form-control">
-            <div class="label">
-              <span class="label-text">Email</span>
-            </div>
-            <input
-              class="input input-bordered"
-              type="text"
-              value={email()}
-              placeholder="youremail@example.com"
-              onInput={(e) => handleInput(e, 'email')}
-            />
-          </div>
-          <div class="form-control">
-            <div class="label">
-              <span class="label-text">Password</span>
-            </div>
-            <input
-              class="input input-bordered"
-              type="password"
-              value={password()}
-              placeholder="Your password"
-              onInput={(e) => handleInput(e, 'password')}
-            />
-          </div>
+    <Container class="mt-3">
+      <div class="d-flex align-items-center py-4">
+        <div class="m-auto w-100" style="max-width: 500px;">
+          <Form onSubmit={handleSubmit}>
+            <h1 class="h3 mb-3">Create an account</h1>
+            <FloatingLabel controlId="form-email" label="Email">
+              <Form.Control
+                id="form-email"
+                class="form-control"
+                name="email"
+                type="email"
+                placeholder="Email"
+                value={formState.email}
+                onInput={(e) => setFormState('email', e.target.value)}
+                required
+              />
+            </FloatingLabel>
 
-          <div class="form-control mt-4">
-            <button class="btn btn-primary">Create new account</button>
-          </div>
+            <FloatingLabel controlId="form-password" label="Password">
+              <Form.Control
+                class="form-control"
+                id="form-password"
+                type="password"
+                name="password"
+                placeholder="Password"
+                minLength="2"
+                value={formState.password}
+                onInput={(e) => setFormState('password', e.target.value)}
+                // use:validate
+              />
+            </FloatingLabel>
 
-          <div class="mt-2">
-            <p class="flex justify-center items-center">
-              Already have an account? <A class="btn btn-link" href="/login">Login here</A>
-            </p>
-          </div>
-        </form>
+            <Button class="w-100 py-2" variant="primary" type="submit">
+              Create new account
+            </Button>
+
+            <div class="mt-2">
+              <p class="d-flex justify-content-center align-items-center">
+                Already have an account? <A class="btn btn-link" href="/login">Login here</A>
+              </p>
+            </div>
+          </Form>
+        </div>
       </div>
-    </div>
+    </Container>
   )
 }

@@ -8,8 +8,7 @@ export default function ProtectedView(props) {
   const navigate = useNavigate()
 
   createEffect(() => {
-    console.log('Protected', store.currentUser())
-    if (!store.currentUser()) {
+    if (!store.currentUser.loading && !store.currentUser()) {
       navigate('/login', {replace: true})
     }
   })
