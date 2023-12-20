@@ -15,14 +15,14 @@ export default function TodoInput(props: TodoInputProps) {
   const [title, setTitle] = createSignal<string>('')
   const [body, setBody] = createSignal<string>('')
 
+  const debouncedSubmit = debounce(props.onSubmit, 200)
   const handleSubmit = (e: SubmitEvent) => {
     e.preventDefault()
-    props.onSubmit({title: title(), body: body()})
+    debouncedSubmit({title: title(), body: body()})
     setTitle('')
     setBody('')
   }
 
-  const debouncedSubmit = debounce(handleSubmit)
 
   const handleInput = (e) => {
     setTitle(e.target.value)
@@ -30,7 +30,7 @@ export default function TodoInput(props: TodoInputProps) {
   }
 
   return (
-    <form role="form" class={props.class} onSubmit={debouncedSubmit}>
+    <form role="form" class={props.class} onSubmit={handleSubmit}>
       <div class="input-group">
         <button class="btn btn-outline-secondary" type="submit">Add</button>
         <input

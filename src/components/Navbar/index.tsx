@@ -19,9 +19,12 @@ export default function () {
         <Navbar.Brand>todo-everything</Navbar.Brand>
         <Navbar.Collapse>
           <Nav class="ms-auto">
-            <NavDropdown title={<RiUserFacesAccountCircleFill class="bi" />}>
+            <NavDropdown align="end" title={<RiUserFacesAccountCircleFill class="bi" />}>
               {store.currentUser() ? (
                 <>
+                  <NavDropdown.Item href="#">
+                    {store.currentUser()!.email}
+                  </NavDropdown.Item>
                   <NavDropdown.Item href="/me">
                     Settings
                   </NavDropdown.Item>
