@@ -1,4 +1,3 @@
-import {createSignal} from 'solid-js'
 import {A} from '@solidjs/router'
 import {Button, Container, FloatingLabel, Form} from 'solid-bootstrap'
 import {createStore} from 'solid-js/store'
@@ -17,6 +16,7 @@ export default function RegisterView(props: RegisterViewProps) {
   const handleSubmit = async (e) => {
     e.preventDefault()
     await actions.register(formState.email, formState.password)
+    // TODO: Error handling here or on the actions/store side.
     await actions.login(formState.email, formState.password)
   }
 

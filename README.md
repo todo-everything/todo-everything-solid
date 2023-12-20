@@ -14,8 +14,8 @@ with any backend that authenticates via JWT.
     * [X] Read
     * [X] Update
     * [X] Delete
-* [ ] Signup via email
-* [X] Tests
+* [X] Signup with email and password
+* [X] Basic testing framework with a few tests
 
 ## Built with
 
