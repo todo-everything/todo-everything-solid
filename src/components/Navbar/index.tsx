@@ -1,4 +1,5 @@
-import {useNavigate} from '@solidjs/router'
+import {A, useNavigate} from '@solidjs/router'
+import {} from '@solidjs/router'
 import {useStore} from '../../store/storeContext.tsx'
 import {RiUserFacesAccountCircleFill} from 'solid-icons/ri'
 import {Container, Nav, Navbar, NavDropdown} from 'solid-bootstrap'
@@ -9,14 +10,18 @@ export default function () {
   const navigate = useNavigate()
 
   const handleLogout = async () => {
-    await actions.logout()
+    await actions.accounts.logout()
     navigate('/login', {replace: true})
   }
 
   return (
     <Navbar>
       <Container>
-        <Navbar.Brand>todo-everything</Navbar.Brand>
+        <Navbar.Brand>
+          <A class="" href="/">
+            todo-everything
+          </A>
+        </Navbar.Brand>
         <Navbar.Collapse>
           <Nav class="ms-auto">
             <NavDropdown align="end" title={<RiUserFacesAccountCircleFill class="bi" />}>
@@ -37,7 +42,7 @@ export default function () {
                   <NavDropdown.Item href="/login">
                     Login
                   </NavDropdown.Item>
-                  <NavDropdown.Item href="/login">
+                  <NavDropdown.Item href="/register">
                     Register
                   </NavDropdown.Item>
                 </>

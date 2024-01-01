@@ -3,9 +3,7 @@ import TodosApi from '~/api/todos.ts'
 import {Setter} from 'solid-js'
 
 export interface ITodoActions {
-  loadTodos(): Promise<void>
-
-  getTodos(): Promise<void>
+  fetchAll(): Promise<void>
 
   createTodo(newTodo: ITodo): Promise<void>
 
@@ -26,6 +24,11 @@ export function createTodoStore(options: TodoStoreProps): ITodoActions {
   const {todos, mutateTodos, refetchTodos} = options
 
   return {
+    fetchAll: async (): Promise<void> => {
+      const res = await TodosApi.fetchAll()
+      // TODO:
+      mutateTodos(res)
+    },
     createTodo: async (newTodo: ITodo): Promise<void> => {
       const res = await TodosApi.create(newTodo)
       const _todos = todos()

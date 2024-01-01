@@ -1,6 +1,7 @@
-import {A} from '@solidjs/router'
-import {Button, Container, FloatingLabel, Form} from 'solid-bootstrap'
+import {createEffect} from 'solid-js'
 import {createStore} from 'solid-js/store'
+import {A, useNavigate} from '@solidjs/router'
+import {Button, Container, FloatingLabel, Form} from 'solid-bootstrap'
 import {useStore} from '~/store/storeContext.tsx'
 
 
@@ -11,11 +12,17 @@ interface RegisterViewProps {
 export default function RegisterView(props: RegisterViewProps) {
   const [store, actions] = useStore()
   const [formState, setFormState] = createStore({email: '', password: ''})
+  const navigate = useNavigate()
 
+  createEffect(() => {
+    if (!store.currentUser.loading && store.currentUser()!) {
+      navigate('/todos')
+    }
+  })
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    await actions.register(formState.email, formState.password)
+    await actions.accounts.signup(formState.email, formState.password)
     // TODO: Error handling here or on the actions/store side.
     await actions.login(formState.email, formState.password)
   }

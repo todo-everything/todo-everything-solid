@@ -38,6 +38,8 @@ export interface IProfileActions {
 
 
 export interface IActions extends IUserActions, ITodoActions, ICommonActions {
+  todos: ITodoActions
+  accounts: IUserActions
 }
 
 export type IStoreContext = [state: IStoreState, actions: IActions];
@@ -87,12 +89,10 @@ export function createApplicationStore() {
     token: localStorage.getItem(AUTH_TOKEN_KEY),
   })
 
-  const actions: IActions = {
-    ...createUserStore({setIsLoggedIn, mutateUser, refetchUser, currentUser, mutateTodos}),
-    ...createTodoStore({mutateTodos, todos, refetchTodos}),
-  }
-
-  return [state, actions]
+  return [state, {
+    accounts: createUserStore({setIsLoggedIn, mutateUser, refetchUser, currentUser, mutateTodos}),
+    todos: createTodoStore({mutateTodos, todos, refetchTodos}),
+  } as IActions]
 }
 
 export const StoreContext = createContext<IStoreContext>()

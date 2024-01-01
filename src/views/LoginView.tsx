@@ -17,7 +17,7 @@ export default function LoginView() {
 
   const handleSubmit = async (ev: SubmitEvent) => {
     ev.preventDefault()
-    await actions.login(formState.email, formState.password)
+    await actions.accounts.login(formState.email, formState.password)
     navigate('/todos')
   }
 

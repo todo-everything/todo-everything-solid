@@ -1,14 +1,12 @@
 import {createEffect, createSignal, Suspense} from 'solid-js'
-import TodoTable from '../components/Todo/TodoTable'
-import {useStore} from '../store/storeContext'
-import TodoInput from '../components/Todo/TodoInput'
-import type {IPartialTodo, ITodo, TodoMap} from '../api/models'
 import {useSearchParams} from '@solidjs/router'
-import Loading from '../components/Loading'
-import {omitBy} from '../helpers.ts'
-import SideFilterMenu from '../components/SideFilterMenu'
-import TodoUpdate from '../components/Todo/TodoUpdate.tsx'
-import TdeOffcanvas from '../components/TdeOffcanvas.tsx'
+import type {IPartialTodo, ITodo, TodoMap} from '~/api/models'
+import {useStore} from '~/store/storeContext.tsx'
+import Loading from '~/components/Loading'
+import {omitBy} from '~/helpers.ts'
+import {TodoInput, TodoTable, TodoUpdate} from '~/components/Todo'
+import SideFilterMenu from '~/components/SideFilterMenu'
+import TdeOffcanvas from '~/components/TdeOffcanvas.tsx'
 
 export default function TodoView(props) {
   const [store, actions] = useStore()
@@ -28,7 +26,7 @@ export default function TodoView(props) {
   })
 
   const handleChange = async (todo: ITodo, completed: boolean) =>
-    actions.updateTodo(todo.id, {completed: completed ? new Date() : null})
+    actions.todos.updateTodo(todo.id, {completed: completed ? new Date() : null})
 
   const handleDeleteClick = async (todoId: number) => actions.deleteTodo(todoId)
 
@@ -39,18 +37,20 @@ export default function TodoView(props) {
   }
 
   const handleTodoUpdate = async (todoId: number, todoPartial: IPartialTodo) => {
-    await actions.updateTodo(todoId, todoPartial)
+    await actions.todos.updateTodo(todoId, todoPartial)
     handleCloseDrawer()
   }
 
   return (
     <div class="d-flex flex-row">
       <SideFilterMenu onFilterChange={handleFilterChange} />
-      <div class="flex flex-col flex-grow w-100 mx-6">
-        <TodoInput class="mb-3" onSubmit={actions.createTodo} />
+      <div class="flex-column w-100 mx-6">
+        <TodoInput class="mb-3" onSubmit={actions.todos.createTodo} />
         <Suspense fallback={<Loading />}>
           <TodoTable
-            todos={viewTodos()}
+            // Only using `viewTodos` here, but adding in `store.todos()` so
+            // <Suspense> can show the loading indicator properly.
+            todos={store.todos.loading ? store.todos() : viewTodos()}
             onDelete={handleDeleteClick}
             onComplete={handleChange}
             onItemClick={(todo: ITodo) => {

@@ -1,5 +1,9 @@
+import {Spinner} from 'solid-bootstrap'
+
 export default function Loading(props) {
   return (
-    <span class="loading loading-ball loading-lg"></span>
+    <div class="text-center">
+      <Spinner animation="border" />
+    </div>
   )
 }
