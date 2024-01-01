@@ -5,12 +5,11 @@ import {
   ParentProps, createSignal, createResource
 } from 'solid-js'
 import {createStore} from 'solid-js/store'
-import axios from 'axios'
 
 import type {IPartialTodo, ITodo, IUser, TodoMap} from '~/api/models'
-import {httpClient} from '../api/httpClient.ts'
 import AuthApi from '../api/auth.ts'
 import TodosApi from '../api/todos.ts'
+import {createUserStore, IUserActions} from '~/store/userStore.ts'
 
 
 export const AUTH_TOKEN_KEY = 'access'
@@ -36,19 +35,6 @@ export interface IProfileActions {
   unfollow(): Promise<void>
 }
 
-export interface IUserActions {
-  pullUser: () => true
-
-  login(email: string, password: string): Promise<void>
-
-  register(email: string, password: string): Promise<void>
-
-  logout(): Promise<void>
-
-  updateUser(newUser: IUser): Promise<void>
-
-  refetchUser(): Promise<void>
-}
 
 export interface ITodoActions {
   loadTodos(): Promise<void>
@@ -119,48 +105,7 @@ export function createApplicationStore() {
   })
 
   const actions: IActions = {
-    login: async (email: string, password: string): Promise<void> => {
-      const {data} = await httpClient.post('/token/', {
-        email: email,
-        password: password
-      })
-      const {access, refresh} = data
-
-      // Initialize the access & refresh token in localstorage.
-      localStorage.clear()
-      localStorage.setItem('access_token', access)
-      localStorage.setItem('refresh_token', refresh)
-      axios.defaults.headers.common['Authorization'] = `Bearer ${access}`
-      setIsLoggedIn(true)
-    },
-    /**
-     * Register with provided details.
-     *
-     * Note: This does not return auth details, so use the `login` endpoint
-     * after registering to get the final token response.
-     * @param email
-     * @param password
-     */
-    register: async (email: string, password: string): Promise<void> => {
-      const {data} = await httpClient.post('/register/', {
-        email,
-        password
-      })
-      localStorage.clear()
-      // TODO: Error handling
-    },
-    refetchUser: async () => {
-      setIsLoggedIn(true)
-      await refetchUser()
-      console.log(currentUser())
-    },
-    async logout() {
-      // AuthApi.clearAllTokens()
-      await AuthApi.logout()
-      setIsLoggedIn(false)
-      mutateTodos({})
-      mutateUser(null)
-    },
+    ...createUserStore({setIsLoggedIn, mutateUser, refetchUser, currentUser, mutateTodos}),
     createTodo: async (newTodo: ITodo): Promise<void> => {
       const res = await TodosApi.createTodo(newTodo)
       const _todos = todos()
