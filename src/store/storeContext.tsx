@@ -6,10 +6,11 @@ import {
 } from 'solid-js'
 import {createStore} from 'solid-js/store'
 
-import type {IPartialTodo, ITodo, IUser, TodoMap} from '~/api/models'
+import type {ITodo, IUser, TodoMap} from '~/api/models'
 import AuthApi from '../api/auth.ts'
 import TodosApi from '../api/todos.ts'
 import {createUserStore, IUserActions} from '~/store/userStore.ts'
+import {createTodoStore, ITodoActions} from '~/store/todoStore.ts'
 
 
 export const AUTH_TOKEN_KEY = 'access'
@@ -35,24 +36,6 @@ export interface IProfileActions {
   unfollow(): Promise<void>
 }
 
-
-export interface ITodoActions {
-  loadTodos(): Promise<void>
-
-  getTodos(): Promise<void>
-
-  createTodo(newTodo: ITodo): Promise<void>
-
-  updateTodo(todoId: number, updates: IPartialTodo): Promise<void>
-
-  completeTodo(todoId: number): Promise<void>
-
-  unCompleteTodo(todoId: number): Promise<void>
-
-  clearTodoState(): Function
-
-  deleteTodo(todoId: number): Promise<void>
-}
 
 export interface IActions extends IUserActions, ITodoActions, ICommonActions {
 }
@@ -80,7 +63,7 @@ export function createApplicationStore() {
     return mapTodos(res)
   }
 
-  const [isLoggedIn, setIsLoggedIn] = createSignal()
+  const [isLoggedIn, setIsLoggedIn] = createSignal<boolean>(false)
   const [currentUser, {
     mutate: mutateUser,
     refetch: refetchUser
@@ -106,41 +89,7 @@ export function createApplicationStore() {
 
   const actions: IActions = {
     ...createUserStore({setIsLoggedIn, mutateUser, refetchUser, currentUser, mutateTodos}),
-    createTodo: async (newTodo: ITodo): Promise<void> => {
-      const res = await TodosApi.createTodo(newTodo)
-      const _todos = todos()
-      _todos[res.id] = res
-      mutateTodos({..._todos})
-    },
-    completeTodo: async (todoId: number) => {
-      const res = await TodosApi.complete(todoId)
-      console.log('complete', {res})
-      const _todos = todos()
-      _todos[res.id] = res
-      mutateTodos({..._todos})
-    },
-    updateTodo: async (todoId: number, updates: IPartialTodo) => {
-      const res = await TodosApi.update(todoId, updates)
-      console.log('update todo')
-      const _todos = todos()
-      _todos[res.id] = res
-      mutateTodos({..._todos})
-    },
-    unCompleteTodo: async (todoId: number) => {
-      const res = await TodosApi.unComplete(todoId)
-      console.log('un-complete', {res})
-      const _todos = todos()
-      _todos[res.id] = res
-      mutateTodos({..._todos})
-    },
-    deleteTodo: async (todoId: number) => {
-      console.log('delete', {todoId})
-      const res = await TodosApi.delete(todoId)
-      const _todos = todos()
-      delete _todos[todoId]
-      console.log({_todos, res})
-      mutateTodos({..._todos})
-    },
+    ...createTodoStore({mutateTodos, todos, refetchTodos}),
   }
 
   return [state, actions]

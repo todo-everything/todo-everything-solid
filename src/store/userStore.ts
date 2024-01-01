@@ -1,5 +1,6 @@
-import {httpClient} from '~/api/httpClient.ts'
+import {Setter} from 'solid-js'
 import axios from 'axios'
+import {httpClient} from '~/api/httpClient.ts'
 import AuthApi from '~/api/auth.ts'
 import type {IUser} from '~/api/models'
 
@@ -18,17 +19,16 @@ export interface IUserActions {
 }
 
 interface UserStoreProps {
-  setIsLoggedIn: Function,
-  mutateUser: Function,
-  refetchUser: Function,
+  setIsLoggedIn: Setter<boolean>,
+  mutateUser: Setter<IUser>,
+  refetchUser: (data?: any) => any,
   mutateTodos: Function,
   currentUser: Function,
-  updateUser: Function,
 }
 
 
 export function createUserStore(options: UserStoreProps): IUserActions {
-  const {setIsLoggedIn, mutateUser, refetchUser, mutateTodos, currentUser, updateUser} = options
+  const {setIsLoggedIn, mutateUser, refetchUser, mutateTodos, currentUser} = options
 
   return {
     login: async (email: string, password: string): Promise<void> => {
@@ -62,7 +62,9 @@ export function createUserStore(options: UserStoreProps): IUserActions {
       // TODO: Error handling
     },
     updateUser: async (userUpdates: IUser): Promise<void> => {
-      const {data} = await updateUser(userUpdates)
+      const {data} = await httpClient.put('/account/', {
+        ...userUpdates
+      })
       mutateUser(data)
     },
     refetchUser: async () => {
