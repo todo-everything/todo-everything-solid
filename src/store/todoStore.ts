@@ -11,11 +11,7 @@ export interface ITodoActions {
 
   updateTodo(todoId: number, updates: IPartialTodo): Promise<void>
 
-  completeTodo(todoId: number): Promise<void>
-
-  unCompleteTodo(todoId: number): Promise<void>
-
-  clearTodoState(): Function
+  // clearTodoState(): Function
 
   deleteTodo(todoId: number): Promise<void>
 }
@@ -31,7 +27,7 @@ export function createTodoStore(options: TodoStoreProps): ITodoActions {
 
   return {
     createTodo: async (newTodo: ITodo): Promise<void> => {
-      const res = await TodosApi.createTodo(newTodo)
+      const res = await TodosApi.create(newTodo)
       const _todos = todos()
       _todos[res.id] = res
       mutateTodos({..._todos})

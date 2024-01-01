@@ -59,7 +59,7 @@ export function createApplicationStore() {
 
   const fetchTodos = async (): Promise<TodoMap> => {
     console.log('fetch todos')
-    const res = await TodosApi.getTodos()
+    const res = await TodosApi.fetchAll()
     return mapTodos(res)
   }
 

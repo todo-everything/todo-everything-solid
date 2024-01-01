@@ -1,16 +1,21 @@
-export interface IUser {
+interface IIdModel {
   id: number
+}
+
+interface IBaseModel extends IIdModel {
+  created: Date
+  updated: Date
+}
+
+export interface IUser extends IIdModel {
   email: string
 }
 
-export interface ITodo {
-  id: number
+export interface ITodo extends IBaseModel {
   title: string
   body: string
   completed: Date
   created_by: IUser
-  created: Date
-  updated: Date
 }
 
 export interface IPartialTodo {
@@ -21,4 +26,8 @@ export interface IPartialTodo {
 
 export interface TodoMap {
   [key: number]: ITodo
+}
+
+export interface IOrganization extends IBaseModel {
+  name: string
 }
