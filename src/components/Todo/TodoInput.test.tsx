@@ -1,7 +1,6 @@
-import {cleanup, fireEvent, render, screen} from '@solidjs/testing-library'
+import { cleanup, fireEvent, render, screen } from '@solidjs/testing-library'
 import TodoInput from './TodoInput.tsx'
-import {vi} from 'vitest'
-
+import { vi } from 'vitest'
 
 describe('<TodoInput />', () => {
   afterEach(cleanup)
@@ -14,7 +13,7 @@ describe('<TodoInput />', () => {
     const input = screen.getByPlaceholderText('Add todo...')
     expect(input).toBeInTheDocument()
 
-    fireEvent.input(input, {target: {value: 'test'}})
+    fireEvent.input(input, { target: { value: 'test' } })
     expect(input).toHaveValue('test')
   })
 

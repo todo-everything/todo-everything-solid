@@ -1,7 +1,7 @@
-import Navbar from "../components/Navbar";
+import Navbar from '../components/Navbar'
 
 type LayoutProps = {
-  children: Node;
+  children: Node
 }
 
 export default function Layout(props: LayoutProps) {

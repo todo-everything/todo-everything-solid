@@ -1,6 +1,6 @@
-import {useStore} from "../store/storeContext.tsx";
-import {useNavigate} from "@solidjs/router";
-import {createEffect} from "solid-js";
+import { useStore } from '../store/storeContext.tsx'
+import { useNavigate } from '@solidjs/router'
+import { createEffect } from 'solid-js'
 
 export default function RootView() {
   const [store, _] = useStore()
@@ -12,9 +12,7 @@ export default function RootView() {
 
   return (
     <section class="bg-gray-400">
-      <p>
-        Home page, RootView
-      </p>
+      <p>Home page, RootView</p>
     </section>
   )
 }

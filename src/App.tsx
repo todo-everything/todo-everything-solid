@@ -1,6 +1,6 @@
-import {createEffect, createSignal, ParentProps, Show} from 'solid-js'
-import Navbar from './components/Navbar'
-import {useStore} from './store/storeContext.tsx'
+import { createEffect, createSignal, ParentProps, Show } from 'solid-js'
+import Navbar from '~/components/Navbar/index.tsx'
+import { useStore } from './store/storeContext.tsx'
 import Loading from './components/Loading.tsx'
 
 // Use https://github.com/Exelord/solid-services
@@ -21,7 +21,7 @@ export default function App(props: ParentProps) {
   createEffect(async () => {
     if (!store.currentUser() && localStorage.getItem('access_token') != null) {
       setLoading(true)
-      await actions.refetchUser()
+      await actions.accounts.refetchUser()
       setLoading(false)
     }
   })

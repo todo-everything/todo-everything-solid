@@ -1,7 +1,6 @@
-import {Button, Form} from 'solid-bootstrap'
-import {createEffect, createSignal} from 'solid-js'
-import type {IPartialTodo, ITodo} from '~/api/models'
-
+import { Button, Form } from 'solid-bootstrap'
+import { createEffect, createSignal } from 'solid-js'
+import type { IPartialTodo, ITodo } from '~/api/models'
 
 interface TodoDetailProps {
   todo: ITodo
@@ -32,22 +31,21 @@ function parseDateTime(date: Date | string) {
   }
 }
 
-
 export default function TodoUpdate(props: TodoDetailProps) {
   // NOTE: Don't pass props directly into a `createSignal`?
   // https://github.com/solidjs/solid/discussions/287#discussioncomment-324499
   const [todoData, setTodoData] = createSignal<IPartialTodo>({})
 
-  const setData = (data: IPartialTodo) => setTodoData({
-    ...todoData(),
-    ...data,
-  })
-
+  const setData = (data: IPartialTodo) =>
+    setTodoData({
+      ...todoData(),
+      ...data,
+    })
 
   // Create an effect for when props change. Adding it into `createSignal`
   // initial value will not track the prop changes
   createEffect(() => {
-    setTodoData({...props.todo})
+    setTodoData({ ...props.todo })
   })
 
   const handleTodoUpdate = (e: SubmitEvent) => {
@@ -62,7 +60,7 @@ export default function TodoUpdate(props: TodoDetailProps) {
           <Form.Control
             type="text"
             value={todoData().title}
-            onInput={(e) => setData({title: e.target.value})}
+            onInput={(e) => setData({ title: e.target.value })}
           />
           <Form.Label>Title</Form.Label>
         </Form.Group>
@@ -72,7 +70,7 @@ export default function TodoUpdate(props: TodoDetailProps) {
             as="textarea"
             rows={10}
             value={todoData().body}
-            onInput={(e) => setData({body: e.target.value})}
+            onInput={(e) => setData({ body: e.target.value })}
           />
           <Form.Label>Body</Form.Label>
         </Form.Group>
@@ -83,7 +81,7 @@ export default function TodoUpdate(props: TodoDetailProps) {
             type="datetime-local"
             // This is only local timezone aware (as the "-local" type suggests)
             value={parseDateTime(todoData().due_on!)}
-            onInput={(e) => setData({due_on: e.target.value})}
+            onInput={(e) => setData({ due_on: e.target.value })}
           />
           <Form.Label>Due on</Form.Label>
         </Form.Group>
@@ -91,7 +89,12 @@ export default function TodoUpdate(props: TodoDetailProps) {
         <Button class="w-50" variant="primary" type="submit">
           Update
         </Button>
-        <Button class="w-50" variant="secondary" type="button" onClick={props.onCancel}>
+        <Button
+          class="w-50"
+          variant="secondary"
+          type="button"
+          onClick={props.onCancel}
+        >
           Cancel
         </Button>
       </Form>

@@ -1,5 +1,5 @@
-import {lazy} from 'solid-js';
-import type {RouteDefinition} from '@solidjs/router';
+import { lazy } from 'solid-js'
+import type { RouteDefinition } from '@solidjs/router' // Protected route pattern from:
 
 // Protected route pattern from:
 // https://codesandbox.io/p/sandbox/solid-app-router-protected-routes-qt5mv?file=%2Findex.tsx%3A57%2C19
@@ -7,7 +7,7 @@ import type {RouteDefinition} from '@solidjs/router';
 export const routes: RouteDefinition[] = [
   {
     path: '/',
-    component: lazy(() => import("./views/ProtectedView")),
+    component: lazy(() => import('./views/ProtectedView')),
     children: [
       {
         path: '/',
@@ -17,7 +17,7 @@ export const routes: RouteDefinition[] = [
         path: 'todos',
         component: lazy(() => import('./views/TodoView')),
       },
-    ]
+    ],
   },
   {
     path: '/login',
@@ -31,4 +31,4 @@ export const routes: RouteDefinition[] = [
     path: '**',
     component: lazy(() => import('./errors/404')),
   },
-];
+]

@@ -1,17 +1,14 @@
-import {createEffect} from 'solid-js'
-import {createStore} from 'solid-js/store'
-import {A, useNavigate} from '@solidjs/router'
-import {Button, Container, FloatingLabel, Form} from 'solid-bootstrap'
-import {useStore} from '~/store/storeContext.tsx'
+import { createEffect } from 'solid-js'
+import { createStore } from 'solid-js/store'
+import { A, useNavigate } from '@solidjs/router'
+import { Button, Container, FloatingLabel, Form } from 'solid-bootstrap'
+import { useStore } from '~/store/storeContext.tsx'
 
-
-interface RegisterViewProps {
-
-}
+interface RegisterViewProps {}
 
 export default function RegisterView(props: RegisterViewProps) {
   const [store, actions] = useStore()
-  const [formState, setFormState] = createStore({email: '', password: ''})
+  const [formState, setFormState] = createStore({ email: '', password: '' })
   const navigate = useNavigate()
 
   createEffect(() => {
@@ -66,7 +63,10 @@ export default function RegisterView(props: RegisterViewProps) {
 
             <div class="mt-2">
               <p class="d-flex justify-content-center align-items-center">
-                Already have an account? <A class="btn btn-link" href="/login">Login here</A>
+                Already have an account?{' '}
+                <A class="btn btn-link" href="/login">
+                  Login here
+                </A>
               </p>
             </div>
           </Form>

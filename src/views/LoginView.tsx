@@ -1,13 +1,13 @@
-import {createStore} from 'solid-js/store'
-import {A, useNavigate} from '@solidjs/router'
-import {useStore} from '../store/storeContext.tsx'
-import {Button, Container, FloatingLabel, Form} from 'solid-bootstrap'
-import {createEffect} from 'solid-js'
+import { createStore } from 'solid-js/store'
+import { A, useNavigate } from '@solidjs/router'
+import { useStore } from '../store/storeContext.tsx'
+import { Button, Container, FloatingLabel, Form } from 'solid-bootstrap'
+import { createEffect } from 'solid-js'
 
 export default function LoginView() {
   const [store, actions] = useStore()
   const navigate = useNavigate()
-  const [formState, setFormState] = createStore({email: '', password: ''})
+  const [formState, setFormState] = createStore({ email: '', password: '' })
 
   createEffect(() => {
     if (!store.currentUser.loading && store.currentUser()!) {
@@ -55,13 +55,21 @@ export default function LoginView() {
               />
             </FloatingLabel>
 
-            <Button class="w-100 py-2" role="button" type="submit" variant="primary">
+            <Button
+              class="w-100 py-2"
+              role="button"
+              type="submit"
+              variant="primary"
+            >
               Login
             </Button>
 
             <div class="mt-2">
               <p class="d-flex justify-content-center align-items-center">
-                Need an account? <A class="btn btn-link" href="/register">Create a new account here</A>
+                Need an account?{' '}
+                <A class="btn btn-link" href="/register">
+                  Create a new account here
+                </A>
               </p>
             </div>
           </Form>

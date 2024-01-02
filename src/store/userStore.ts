@@ -1,8 +1,8 @@
-import {Setter} from 'solid-js'
+import { Setter } from 'solid-js'
 import axios from 'axios'
-import {httpClient} from '~/api/httpClient.ts'
+import { httpClient } from '~/api/httpClient.ts'
 import AuthApi from '~/api/auth.ts'
-import type {IUser} from '~/api/models'
+import type { IUser } from '~/api/models'
 
 export interface IUserActions {
   // pullUser: () => true
@@ -19,24 +19,24 @@ export interface IUserActions {
 }
 
 interface UserStoreProps {
-  setIsLoggedIn: Setter<boolean>,
-  mutateUser: Setter<IUser>,
-  refetchUser: (data?: any) => any,
-  mutateTodos: Function,
-  currentUser: Function,
+  setIsLoggedIn: Setter<boolean>
+  mutateUser: Setter<IUser>
+  refetchUser: (data?: any) => any
+  mutateTodos: Function
+  currentUser: Function
 }
 
-
 export function createUserStore(options: UserStoreProps): IUserActions {
-  const {setIsLoggedIn, mutateUser, refetchUser, mutateTodos, currentUser} = options
+  const { setIsLoggedIn, mutateUser, refetchUser, mutateTodos, currentUser } =
+    options
 
   return {
     login: async (email: string, password: string): Promise<void> => {
-      const {data} = await httpClient.post('/token/', {
+      const { data } = await httpClient.post('/token/', {
         email: email,
-        password: password
+        password: password,
       })
-      const {access, refresh} = data
+      const { access, refresh } = data
 
       // Initialize the access & refresh token in localstorage.
       localStorage.clear()
@@ -54,16 +54,16 @@ export function createUserStore(options: UserStoreProps): IUserActions {
      * @param password
      */
     signup: async (email: string, password: string): Promise<void> => {
-      const {data} = await httpClient.post('/register/', {
+      const { data } = await httpClient.post('/register/', {
         email,
-        password
+        password,
       })
       localStorage.clear()
       // TODO: Error handling
     },
     updateUser: async (userUpdates: IUser): Promise<void> => {
-      const {data} = await httpClient.put('/account/', {
-        ...userUpdates
+      const { data } = await httpClient.put('/account/', {
+        ...userUpdates,
       })
       mutateUser(data)
     },

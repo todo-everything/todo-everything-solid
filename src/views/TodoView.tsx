@@ -1,12 +1,12 @@
-import {createEffect, createSignal, Suspense} from 'solid-js'
-import {useSearchParams} from '@solidjs/router'
-import type {IPartialTodo, ITodo, TodoMap} from '~/api/models'
-import {useStore} from '~/store/storeContext.tsx'
+import { createEffect, createSignal, Suspense } from 'solid-js'
+import { useSearchParams } from '@solidjs/router'
+import type { IPartialTodo, ITodo, TodoMap } from '~/api/models'
+import { useStore } from '~/store/storeContext.tsx'
 import Loading from '~/components/Loading'
-import {omitBy} from '~/helpers.ts'
-import {TodoInput, TodoTable, TodoUpdate} from '~/components/Todo'
+import { omitBy } from '~/helpers.ts'
+import { TodoInput, TodoTable, TodoUpdate } from '~/components/Todo'
 import SideFilterMenu from '~/components/SideFilterMenu'
-import TdeOffcanvas from '~/components/TdeOffcanvas.tsx'
+import TodoModal from '~/components/Todo/TodoModal.tsx'
 
 export default function TodoView(props) {
   const [store, actions] = useStore()
@@ -26,17 +26,22 @@ export default function TodoView(props) {
   })
 
   const handleChange = async (todo: ITodo, completed: boolean) =>
-    actions.todos.updateTodo(todo.id, {completed: completed ? new Date() : null})
+    actions.todos.updateTodo(todo.id, {
+      completed: completed ? new Date() : null,
+    })
 
   const handleDeleteClick = async (todoId: number) => actions.deleteTodo(todoId)
 
-  const handleFilterChange = () => ''
+  const handleFilterChange = () => {}
 
   const handleCloseDrawer = () => {
     setShowDrawer(false)
   }
 
-  const handleTodoUpdate = async (todoId: number, todoPartial: IPartialTodo) => {
+  const handleTodoUpdate = async (
+    todoId: number,
+    todoPartial: IPartialTodo,
+  ) => {
     await actions.todos.updateTodo(todoId, todoPartial)
     handleCloseDrawer()
   }
@@ -61,7 +66,7 @@ export default function TodoView(props) {
         </Suspense>
 
         {selectedTodo() && (
-          <TdeOffcanvas
+          <TodoModal
             title="Update Todo"
             show={showDrawer()}
             onHide={handleCloseDrawer}
@@ -71,7 +76,7 @@ export default function TodoView(props) {
               onTodoUpdate={handleTodoUpdate}
               onCancel={handleCloseDrawer}
             />
-          </TdeOffcanvas>
+          </TodoModal>
         )}
       </div>
     </div>

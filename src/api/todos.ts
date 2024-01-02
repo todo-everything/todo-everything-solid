@@ -1,6 +1,6 @@
-import {httpClientPrivate} from './httpClientPrivate'
-import {IPartialTodo, ITodo} from './models'
-import {IHttpApi} from '~/api/types.ts'
+import { httpClientPrivate } from './httpClientPrivate'
+import { IPartialTodo, ITodo } from './models'
+import { IHttpApi } from '~/api/types.ts'
 
 export interface Todo {
   id?: number
@@ -37,7 +37,7 @@ const TodosApi: IHttpApi<ITodo> = {
   delete: async (id: number) => {
     const res = await httpClientPrivate.delete(`/todo/${id}/`)
     return res?.data
-  }
+  },
 }
 
 export default TodosApi

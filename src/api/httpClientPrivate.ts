@@ -1,6 +1,6 @@
-import axios, {InternalAxiosRequestConfig} from 'axios'
+import axios, { InternalAxiosRequestConfig } from 'axios'
 
-import {memoizedRefreshToken} from './refreshToken'
+import { memoizedRefreshToken } from './refreshToken'
 
 axios.defaults.baseURL = 'http://localhost:8000/api/'
 
@@ -12,9 +12,8 @@ axios.interceptors.request.use(
     }
     return config
   },
-  (error) => Promise.reject(error)
+  (error) => Promise.reject(error),
 )
-
 
 axios.interceptors.response.use(
   (response) => response,
@@ -26,7 +25,7 @@ axios.interceptors.response.use(
       return axios(config)
     }
     return Promise.reject(error)
-  }
+  },
 )
 
 export const httpClientPrivate = axios

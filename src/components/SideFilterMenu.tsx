@@ -1,5 +1,5 @@
-import {useSearchParams} from '@solidjs/router'
-import {createEffect, createSignal} from 'solid-js'
+import { useSearchParams } from '@solidjs/router'
+import { createEffect, createSignal } from 'solid-js'
 
 interface SideFilterMenuProps {
   onFilterChange: () => ''
@@ -19,22 +19,30 @@ export default function SideFilterMenu(props: SideFilterMenuProps) {
   })
 
   const handleHideCompleted = () => {
-    setSearchParams({hideCompleted: !(searchParams.hideCompleted === 'true')})
+    setSearchParams({ hideCompleted: !(searchParams.hideCompleted === 'true') })
   }
 
   return (
     <ul class="nav flex-column">
       <li class="nav-item">
-        <a class="nav-link" onClick={handleHideCompleted}>{hideAction()} completed</a>
+        <a class="nav-link" onClick={handleHideCompleted}>
+          {hideAction()} completed
+        </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">Link</a>
+        <a class="nav-link" href="#">
+          Link
+        </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">Link</a>
+        <a class="nav-link" href="#">
+          Link
+        </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link disabled" aria-disabled="true">Disabled</a>
+        <a class="nav-link disabled" aria-disabled="true">
+          Disabled
+        </a>
       </li>
     </ul>
   )

@@ -1,5 +1,5 @@
-import {RiSystemDeleteBin2Fill} from 'solid-icons/ri'
-import type {ITodo} from '~/api/models'
+import { RiSystemDeleteBin2Fill } from 'solid-icons/ri'
+import type { ITodo } from '~/api/models'
 
 interface TodoRowProps {
   todo: ITodo
@@ -21,13 +21,17 @@ export default function TodoRow(props: TodoRowProps) {
           onChange={() => props.onComplete(props.todo, !props.todo.completed)}
         />
       </div>
-      <div class="todo-title mx-2 p-2" onClick={() => props.onItemClick(props.todo)}>
-        <span>{props.todo.title || "<none>"}</span>
+      <div
+        class="todo-title mx-2 p-2"
+        onClick={() => props.onItemClick(props.todo)}
+      >
+        <span>{props.todo.title || '<none>'}</span>
       </div>
       <div class="actions flex-end">
         <button
           class="btn btn-secondary"
-          onClick={() => props.onDelete(props.todo.id)}>
+          onClick={() => props.onDelete(props.todo.id)}
+        >
           <RiSystemDeleteBin2Fill /> Delete
         </button>
       </div>

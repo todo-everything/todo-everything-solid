@@ -1,9 +1,9 @@
 import memoize from 'memoize'
-import {httpClient} from './httpClient'
+import { httpClient } from './httpClient'
 
 type Response = {
   data: {
-    access: string,
+    access: string
   }
 }
 
@@ -17,8 +17,10 @@ const refreshTokenFn = async () => {
       refresh: refreshToken,
     })
 
-    console.log('Refresh token res: ', {response})
-    const {data: {access}}: Response = response
+    console.log('Refresh token res: ', { response })
+    const {
+      data: { access },
+    }: Response = response
 
     if (!access) {
       localStorage.removeItem('access_token')
@@ -36,4 +38,4 @@ const refreshTokenFn = async () => {
 
 const maxAge = 10000
 
-export const memoizedRefreshToken = memoize(refreshTokenFn, {maxAge})
+export const memoizedRefreshToken = memoize(refreshTokenFn, { maxAge })

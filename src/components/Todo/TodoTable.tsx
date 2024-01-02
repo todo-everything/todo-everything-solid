@@ -1,6 +1,6 @@
-import {Index} from 'solid-js'
-import type {Accessor, ParentProps} from 'solid-js'
-import type {ITodo} from '~/api/models'
+import type { Accessor, ParentProps } from 'solid-js'
+import { Index } from 'solid-js'
+import type { ITodo } from '~/api/models'
 import TodoRow from '~/components/Todo/TodoRow.tsx'
 
 interface ITodoTable extends ParentProps {

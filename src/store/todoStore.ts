@@ -1,6 +1,6 @@
-import type {IPartialTodo, ITodo, TodoMap} from '~/api/models'
+import type { IPartialTodo, ITodo, TodoMap } from '~/api/models'
 import TodosApi from '~/api/todos.ts'
-import {Setter} from 'solid-js'
+import { Setter } from 'solid-js'
 
 export interface ITodoActions {
   fetchAll(): Promise<void>
@@ -15,13 +15,13 @@ export interface ITodoActions {
 }
 
 interface TodoStoreProps {
-  todos: Function,
-  mutateTodos: Setter<TodoMap>,
-  refetchTodos: (data?: any) => any,
+  todos: Function
+  mutateTodos: Setter<TodoMap>
+  refetchTodos: (data?: any) => any
 }
 
 export function createTodoStore(options: TodoStoreProps): ITodoActions {
-  const {todos, mutateTodos} = options
+  const { todos, mutateTodos } = options
 
   return {
     fetchAll: async (): Promise<void> => {
@@ -33,7 +33,7 @@ export function createTodoStore(options: TodoStoreProps): ITodoActions {
       const res = await TodosApi.create(newTodo)
       const _todos = todos()
       _todos[res.id] = res
-      mutateTodos({..._todos})
+      mutateTodos({ ..._todos })
     },
     updateTodo: async (todoId: number, updates: IPartialTodo) => {
       if (updates.due_on) {
@@ -45,14 +45,14 @@ export function createTodoStore(options: TodoStoreProps): ITodoActions {
       const res = await TodosApi.update(todoId, updates)
       const _todos = todos()
       _todos[res.id] = res
-      mutateTodos({..._todos})
+      mutateTodos({ ..._todos })
     },
     deleteTodo: async (todoId: number) => {
       const res = await TodosApi.delete(todoId)
       const _todos = todos()
       delete _todos[todoId]
-      console.log({_todos, res})
-      mutateTodos({..._todos})
+      console.log({ _todos, res })
+      mutateTodos({ ..._todos })
     },
   }
 }

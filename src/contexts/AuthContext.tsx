@@ -1,11 +1,11 @@
-import {createContext, ParentProps, useContext} from "solid-js";
-import {IUser} from "../api/models";
+import { createContext, ParentProps, useContext } from 'solid-js'
+import { IUser } from '../api/models'
 
 interface AuthProviderProps extends ParentProps {
-  user: IUser | null,
+  user: IUser | null
 }
 
-export const AuthContext = createContext();
+export const AuthContext = createContext()
 
 // export function AuthProvider(props: AuthProviderProps) {
 //   const user = createSignal<IUser | null>(props.user)
@@ -16,7 +16,6 @@ export const AuthContext = createContext();
 //       </AuthContext.Provider>
 //   )
 // }
-
 
 export function useAuth() {
   return useContext(AuthContext)

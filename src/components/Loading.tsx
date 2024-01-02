@@ -1,4 +1,4 @@
-import {Spinner} from 'solid-bootstrap'
+import { Spinner } from 'solid-bootstrap'
 
 export default function Loading(props) {
   return (

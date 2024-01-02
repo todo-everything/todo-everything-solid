@@ -1,5 +1,5 @@
-import {Show} from 'solid-js'
-import type {JSX} from 'solid-js'
+import type { JSX } from 'solid-js'
+import { Show } from 'solid-js'
 
 type TextFieldProps = {
   value: string
@@ -14,7 +14,6 @@ type TextFieldProps = {
   placeholder?: string
 }
 
-
 export default function TextField(props: TextFieldProps) {
   return (
     <label class="form-control">
@@ -24,7 +23,9 @@ export default function TextField(props: TextFieldProps) {
         </div>
       </Show>
       <input
-        class={`input input-bordered w-full max-w-xs ${props.joinItem ? 'join-item' : ''}`}
+        class={`input input-bordered w-full max-w-xs ${
+          props.joinItem ? 'join-item' : ''
+        }`}
         type={props.type}
         placeholder={props.placeholder}
         value={props.value}
