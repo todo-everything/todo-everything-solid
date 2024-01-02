@@ -21,7 +21,7 @@ interface TodoStoreProps {
 }
 
 export function createTodoStore(options: TodoStoreProps): ITodoActions {
-  const {todos, mutateTodos, refetchTodos} = options
+  const {todos, mutateTodos} = options
 
   return {
     fetchAll: async (): Promise<void> => {
@@ -36,14 +36,18 @@ export function createTodoStore(options: TodoStoreProps): ITodoActions {
       mutateTodos({..._todos})
     },
     updateTodo: async (todoId: number, updates: IPartialTodo) => {
+      if (updates.due_on) {
+        // This converts it into a new `Date` instance __in the user's current locale__.
+        // The API requires this to be in the ISO string format (`new Date().toISOString()`).
+        updates.due_on = new Date(updates.due_on).toISOString()
+      }
+
       const res = await TodosApi.update(todoId, updates)
-      console.log('update todo')
       const _todos = todos()
       _todos[res.id] = res
       mutateTodos({..._todos})
     },
     deleteTodo: async (todoId: number) => {
-      console.log('delete', {todoId})
       const res = await TodosApi.delete(todoId)
       const _todos = todos()
       delete _todos[todoId]

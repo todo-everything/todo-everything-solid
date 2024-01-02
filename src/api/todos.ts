@@ -9,6 +9,8 @@ export interface Todo {
   completed?: boolean
   created?: Date
   modified?: Date
+  due_on?: Date
+  started_on?: Date
 }
 
 const TodosApi: IHttpApi<ITodo> = {
@@ -32,8 +34,8 @@ const TodosApi: IHttpApi<ITodo> = {
     return res?.data
   },
 
-  delete: async (todoId: number) => {
-    const res = await httpClientPrivate.delete(`/todo/${todoId}/`)
+  delete: async (id: number) => {
+    const res = await httpClientPrivate.delete(`/todo/${id}/`)
     return res?.data
   }
 }
