@@ -4,7 +4,7 @@ interface IIdModel {
 
 interface IBaseModel extends IIdModel {
   created: Date
-  updated: Date
+  modified: Date
 }
 
 export interface IUser extends IIdModel {

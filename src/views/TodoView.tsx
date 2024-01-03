@@ -4,7 +4,7 @@ import type { IPartialTodo, ITodo, TodoMap } from '~/api/models'
 import { useStore } from '~/store/storeContext.tsx'
 import Loading from '~/components/Loading'
 import { omitBy } from '~/helpers.ts'
-import { TodoInput, TodoTable, TodoUpdate } from '~/components/Todo'
+import { TodoInput, TodoTable } from '~/components/Todo'
 import SideFilterMenu from '~/components/SideFilterMenu'
 import TodoModal from '~/components/Todo/TodoModal.tsx'
 
@@ -67,16 +67,11 @@ export default function TodoView(props) {
 
         {selectedTodo() && (
           <TodoModal
+            todo={selectedTodo()!}
             title="Update Todo"
             show={showDrawer()}
             onHide={handleCloseDrawer}
-          >
-            <TodoUpdate
-              todo={selectedTodo()!}
-              onTodoUpdate={handleTodoUpdate}
-              onCancel={handleCloseDrawer}
-            />
-          </TodoModal>
+          />
         )}
       </div>
     </div>

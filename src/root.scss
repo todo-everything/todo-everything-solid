@@ -50,3 +50,27 @@ html, body {
     border-bottom-left-radius: 0;
   }
 }
+
+
+.todo-modal {
+  .todo-modal-meta-row {
+    display: flex;
+    position: relative;
+    bottom: 0;
+    z-index: 1000;
+    border-top-color: var(--bs-border-color);
+    border-top-width: var(--bs-border-width);
+    border-top-style: solid;
+  }
+  .todo-modal-meta-item {
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+
+    span {
+      em {
+        color: var(--bs-gray-600);
+      }
+    }
+  }
+}

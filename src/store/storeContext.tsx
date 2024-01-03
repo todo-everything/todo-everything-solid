@@ -53,15 +53,11 @@ export const mapTodos = (todos: ITodo[]): TodoMap =>
 export function createApplicationStore() {
   const fetchCurrentUser = async () => {
     // TODO: Memoize?
-    const res = await AuthApi.getUser()
-    console.log('FetchUser', { res })
-    return res
+    return AuthApi.getUser()
   }
 
   const fetchTodos = async (): Promise<TodoMap> => {
-    console.log('fetch todos')
-    const res = await TodosApi.fetchAll()
-    return mapTodos(res)
+    return mapTodos(await TodosApi.fetchAll())
   }
 
   const [isLoggedIn, setIsLoggedIn] = createSignal<boolean>(false)

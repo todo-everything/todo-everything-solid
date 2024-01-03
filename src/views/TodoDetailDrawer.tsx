@@ -13,10 +13,7 @@ export default function TodoDetailDrawer(props) {
           htmlFor="my-drawer-4"
           aria-label="close sidebar"
           class="drawer-overlay"
-          onClick={() => {
-            console.log('overlay clicked')
-            props.onClose()
-          }}
+          onClick={() => props.onClose()}}
         ></label>
         <ul class="menu p-4 w-80 min-h-full bg-base-200 text-base-content">
           <li>

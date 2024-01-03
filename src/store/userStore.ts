@@ -69,8 +69,7 @@ export function createUserStore(options: UserStoreProps): IUserActions {
     },
     refetchUser: async () => {
       setIsLoggedIn(true)
-      await refetchUser()
-      console.log(currentUser())
+      return refetchUser()
     },
     async logout() {
       // AuthApi.clearAllTokens()
