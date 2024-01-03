@@ -2,6 +2,7 @@ import { RiBusinessCalendar2Fill } from 'solid-icons/ri'
 import Modal from '~/components/Modal.tsx'
 import { createEffect, createSignal, ParentProps } from 'solid-js'
 import { ITodo } from '~/api/models'
+import { ModalBody } from 'solid-bootstrap'
 
 interface TodoModalProps extends ParentProps {
   todo: ITodo
@@ -23,14 +24,14 @@ export default function TodoModal(props: TodoModalProps) {
     `${dueDt()?.toLocaleDateString()}, ${dueDt()?.toLocaleTimeString()}`
 
   const PreFooter = () => (
-    <div class="todo-modal-meta-row p-2">
+    <ModalBody class="todo-modal-meta-row">
       <div class="todo-modal-meta-item">
         <RiBusinessCalendar2Fill class="h-100" />{' '}
         <span class="ps-2">
           {props.todo.due_on ? getDueStr() : <em>No due date</em>}
         </span>
       </div>
-    </div>
+    </ModalBody>
   )
 
   return (

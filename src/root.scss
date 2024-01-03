@@ -55,9 +55,9 @@ html, body {
 .todo-modal {
   .todo-modal-meta-row {
     display: flex;
-    position: relative;
-    bottom: 0;
-    z-index: 1000;
+    //position: relative;
+    //bottom: 0;
+    //z-index: 1000;
     border-top-color: var(--bs-border-color);
     border-top-width: var(--bs-border-width);
     border-top-style: solid;

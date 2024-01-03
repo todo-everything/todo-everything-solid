@@ -1,7 +1,11 @@
 import { A, useNavigate } from '@solidjs/router'
 import { useStore } from '../../store/storeContext.tsx'
-import { RiUserFacesAccountCircleFill } from 'solid-icons/ri'
-import { Container, Nav, Navbar, NavDropdown } from 'solid-bootstrap'
+import {
+  RiSystemLogoutBoxFill,
+  RiSystemSettings3Fill,
+  RiUserFacesAccountCircleFill,
+} from 'solid-icons/ri'
+import { Container, Nav, Navbar, NavDropdown, NavLink } from 'solid-bootstrap'
 
 export default function () {
   const [store, actions] = useStore()
@@ -20,6 +24,10 @@ export default function () {
             todo-everything
           </A>
         </Navbar.Brand>
+        <Nav class="me-auto">
+          <NavLink href="/dashboard">Dashboard</NavLink>
+          <NavLink href="/todos">Todos</NavLink>
+        </Nav>
         <Navbar.Collapse>
           <Nav class="ms-auto">
             <NavDropdown
@@ -29,11 +37,14 @@ export default function () {
               {store.currentUser() ? (
                 <>
                   <NavDropdown.Item href="#">
+                    <RiUserFacesAccountCircleFill />{' '}
                     {store.currentUser()!.email}
                   </NavDropdown.Item>
-                  <NavDropdown.Item href="/me">Settings</NavDropdown.Item>
+                  <NavDropdown.Item href="/me">
+                    <RiSystemSettings3Fill /> Settings
+                  </NavDropdown.Item>
                   <NavDropdown.Item onClick={handleLogout}>
-                    Logout
+                    <RiSystemLogoutBoxFill /> Logout
                   </NavDropdown.Item>
                 </>
               ) : (

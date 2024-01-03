@@ -6,6 +6,7 @@ interface TodoDetailProps {
   todo: ITodo
   onTodoUpdate: (todoId: number, data: IPartialTodo) => void
   onCancel: () => void
+  onChangeEditMode: () => void
 }
 
 function convertToDateTimeLocalString(date: Date): string {
@@ -50,7 +51,8 @@ export default function TodoUpdate(props: TodoDetailProps) {
 
   const handleTodoUpdate = (e: SubmitEvent) => {
     e.preventDefault()
-    return props.onTodoUpdate(props.todo.id, todoData())
+    props.onTodoUpdate(props.todo.id, todoData())
+    props.onChangeEditMode()
   }
 
   return (

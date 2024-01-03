@@ -1,16 +1,18 @@
 import { createEffect, createSignal, Suspense } from 'solid-js'
 import { useSearchParams } from '@solidjs/router'
 import type { IPartialTodo, ITodo, TodoMap } from '~/api/models'
-import { useStore } from '~/store/storeContext.tsx'
+import { useStore } from '~/store/storeContext'
 import Loading from '~/components/Loading'
-import { omitBy } from '~/helpers.ts'
-import { TodoInput, TodoTable } from '~/components/Todo'
+import { omitBy } from '~/helpers'
+import { TodoInput, TodoTable, TodoUpdate } from '~/components/Todo'
 import SideFilterMenu from '~/components/SideFilterMenu'
-import TodoModal from '~/components/Todo/TodoModal.tsx'
+import TdeOffcanvas from '~/components/TdeOffcanvas'
+import TodoSingleDetail from '~/components/Todo/TodoSingleDetail.tsx'
 
 export default function TodoView(props) {
   const [store, actions] = useStore()
   const [showDrawer, setShowDrawer] = createSignal<boolean>(false)
+  const [isEditing, setIsEditing] = createSignal<boolean>(false)
   const [selectedTodo, setSelectedTodo] = createSignal<ITodo>()
   // Create a reactive view of the todos to apply filters on?
   // The todos in the actual global store will not change.
@@ -43,7 +45,16 @@ export default function TodoView(props) {
     todoPartial: IPartialTodo,
   ) => {
     await actions.todos.updateTodo(todoId, todoPartial)
-    handleCloseDrawer()
+    // Update `selectedTodo` with the newest thing from the store
+    setSelectedTodo(store.todos()[todoId])
+  }
+
+  const handleChangeEditMode = () => {
+    setIsEditing(!isEditing())
+  }
+
+  const handleUpdateCancel = () => {
+    setIsEditing(false)
   }
 
   return (
@@ -66,12 +77,26 @@ export default function TodoView(props) {
         </Suspense>
 
         {selectedTodo() && (
-          <TodoModal
-            todo={selectedTodo()!}
+          <TdeOffcanvas
             title="Update Todo"
             show={showDrawer()}
             onHide={handleCloseDrawer}
-          />
+          >
+            {isEditing() ? (
+              <TodoUpdate
+                todo={selectedTodo()!}
+                onTodoUpdate={handleTodoUpdate}
+                onCancel={handleUpdateCancel}
+                onChangeEditMode={handleChangeEditMode}
+              />
+            ) : (
+              <TodoSingleDetail
+                todo={selectedTodo()}
+                isEditing={isEditing()}
+                onChangeEditMode={handleChangeEditMode}
+              />
+            )}
+          </TdeOffcanvas>
         )}
       </div>
     </div>
