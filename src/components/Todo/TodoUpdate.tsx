@@ -6,7 +6,7 @@ interface TodoDetailProps {
   todo: ITodo
   onTodoUpdate: (todoId: number, data: IPartialTodo) => void
   onCancel: () => void
-  onChangeEditMode: () => void
+  onEditClick: () => void
 }
 
 function convertToDateTimeLocalString(date: Date): string {
@@ -52,7 +52,7 @@ export default function TodoUpdate(props: TodoDetailProps) {
   const handleTodoUpdate = (e: SubmitEvent) => {
     e.preventDefault()
     props.onTodoUpdate(props.todo.id, todoData())
-    props.onChangeEditMode()
+    props.onEditClick()
   }
 
   return (
@@ -88,9 +88,6 @@ export default function TodoUpdate(props: TodoDetailProps) {
           <Form.Label>Due on</Form.Label>
         </Form.Group>
 
-        <Button class="w-50" variant="primary" type="submit">
-          Update
-        </Button>
         <Button
           class="w-50"
           variant="secondary"
@@ -98,6 +95,9 @@ export default function TodoUpdate(props: TodoDetailProps) {
           onClick={props.onCancel}
         >
           Cancel
+        </Button>
+        <Button class="w-50" variant="primary" type="submit">
+          Update
         </Button>
       </Form>
     </div>

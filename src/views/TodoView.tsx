@@ -38,6 +38,7 @@ export default function TodoView(props) {
 
   const handleCloseDrawer = () => {
     setShowDrawer(false)
+    setIsEditing(false)
   }
 
   const handleTodoUpdate = async (
@@ -45,6 +46,7 @@ export default function TodoView(props) {
     todoPartial: IPartialTodo,
   ) => {
     await actions.todos.updateTodo(todoId, todoPartial)
+    setIsEditing(false)
     // Update `selectedTodo` with the newest thing from the store
     setSelectedTodo(store.todos()[todoId])
   }
@@ -78,7 +80,7 @@ export default function TodoView(props) {
 
         {selectedTodo() && (
           <TdeOffcanvas
-            title="Update Todo"
+            title={isEditing() ? 'Update Todo' : 'Todo Detail'}
             show={showDrawer()}
             onHide={handleCloseDrawer}
           >
@@ -87,13 +89,14 @@ export default function TodoView(props) {
                 todo={selectedTodo()!}
                 onTodoUpdate={handleTodoUpdate}
                 onCancel={handleUpdateCancel}
-                onChangeEditMode={handleChangeEditMode}
+                onEditClick={handleChangeEditMode}
               />
             ) : (
               <TodoSingleDetail
                 todo={selectedTodo()}
                 isEditing={isEditing()}
-                onChangeEditMode={handleChangeEditMode}
+                onEditClick={handleChangeEditMode}
+                onCloseClick={handleCloseDrawer}
               />
             )}
           </TdeOffcanvas>

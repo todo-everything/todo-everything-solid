@@ -43,26 +43,68 @@ html, body {
   }
 
   button[type=submit] {
-    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
   }
 
   button[type=button] {
-    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
   }
 }
 
+.todo-detail {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.todo-detail-content {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+
+  .todo-detail-header {
+    border-bottom-color: var(--bs-border-color);
+    border-bottom-width: var(--bs-border-width);
+    border-bottom-style: solid;
+  }
+
+  .todo-detail-body {
+    flex: 1;
+  }
+
+  .todo-detail-bottom-meta,
+  .todo-detail-top-meta {
+    display: flex;
+    flex-direction: column;
+
+    .todo-meta-item {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+
+      &:nth-child(even) {
+        margin-top: 0.25rem;
+      }
+
+      span {
+        padding-left: 0.5rem;
+        em {
+          color: var(--bs-gray-600);
+        }
+      }
+    }
+  }
+}
 
 .todo-modal {
   .todo-modal-meta-row {
     display: flex;
-    //position: relative;
-    //bottom: 0;
-    //z-index: 1000;
     border-top-color: var(--bs-border-color);
     border-top-width: var(--bs-border-width);
     border-top-style: solid;
   }
-  .todo-modal-meta-item {
+
+  .todo-meta-item {
     display: flex;
     flex-direction: row;
     align-content: center;
